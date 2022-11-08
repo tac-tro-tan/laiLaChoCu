@@ -11,7 +11,7 @@ namespace laiLaChoCu.Models.Items
         public string Area { get; set; }
         public int Price { get; set; }
         public string Address { get; set; }
-        public int Phone { get; set; }
+        public string Phone { get; set; }
         public string Describe { get; set; }
         public StatusEnum Status { get; set; }
     }

@@ -13,6 +13,6 @@ namespace laiLaChoCu.Models.Accounts
         [Required]
         public string Address { get; set; }
         [Required]
-        public int Phone { get; set; }
+        public string Phone { get; set; }
     }
 }

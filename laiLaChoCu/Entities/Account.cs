@@ -5,7 +5,7 @@ namespace laiLaChoCu.Entities
 {
     public class Account
     {
-        public Account(string title, string fisrtName, string lastname, string address, int phone, string email, string password)
+        public Account(string title, string fisrtName, string lastname, string address, string phone, string email, string password)
         {
             Title = title;
             FisrtName = fisrtName;
@@ -22,7 +22,7 @@ namespace laiLaChoCu.Entities
         public string FisrtName { get; set; }
         public string Lastname { get; set; }
         public string Address { get; set; }
-        public int Phone { get; set; }
+        public string Phone { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
         [JsonIgnore]

@@ -17,7 +17,7 @@ namespace laiLaChoCu.Models.Items
         [Required]
         public string Address { get; set; }
         [Required]
-        public int Phone { get; set; }
+        public string Phone { get; set; }
         [Required]
         public string Describe { get; set; }
     }
