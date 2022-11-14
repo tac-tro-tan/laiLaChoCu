@@ -9,8 +9,8 @@ namespace laiLaChoCu.Controllers
     [Controller]
     public class FeedbackController : BaseController
     {
-        private readonly FeedbackServices feedbackServices;
-        public FeedbackController(FeedbackServices feedbackServices)
+        private readonly IFeedbackServices feedbackServices;
+        public FeedbackController(IFeedbackServices feedbackServices)
         {
             this.feedbackServices = feedbackServices;
         }

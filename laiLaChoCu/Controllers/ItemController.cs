@@ -10,8 +10,8 @@ namespace laiLaChoCu.Controllers
     [Controller]
     public class ItemController : BaseController
     {
-        private readonly ItemServices itemServices;
-        public ItemController(ItemServices itemServices)
+        private readonly IItemServices itemServices;
+        public ItemController(IItemServices itemServices)
         {
             this.itemServices = itemServices;
         }

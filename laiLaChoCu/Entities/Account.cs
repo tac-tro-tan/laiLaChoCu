@@ -5,15 +5,16 @@ namespace laiLaChoCu.Entities
 {
     public class Account
     {
-        public Account(string title, string fisrtName, string lastname, string address, string phone, string email, string password)
+        public Account(string title, string fisrtName, string lastname,string url_Image, string address, string phone, string email, string password)
         {
-            Title = title;
-            FisrtName = fisrtName;
-            Lastname = lastname;
-            Address = address;
-            Phone = phone;
-            Email = email;
-            Password = password;
+            this.Title = title;
+            this.FisrtName = fisrtName;
+            this.Lastname = lastname;
+            this.Url_Image = url_Image;
+            this.Address = address;
+            this.Phone = phone;
+            this.Email = email;
+            this.Password = password;
         }
 
         [Key]
@@ -21,6 +22,7 @@ namespace laiLaChoCu.Entities
         public string Title { get; set; }
         public string FisrtName { get; set; }
         public string Lastname { get; set; }
+        public string Url_Image { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
         public string Email { get; set; }

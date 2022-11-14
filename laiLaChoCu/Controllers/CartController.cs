@@ -9,8 +9,8 @@ namespace laiLaChoCu.Controllers
     [Controller]
     public class CartController : BaseController
     {
-        private readonly CartServices cartServices;
-        public CartController(CartServices cartServices)
+        private readonly ICartServices cartServices;
+        public CartController(ICartServices cartServices)
         {
             this.cartServices = cartServices;
         }

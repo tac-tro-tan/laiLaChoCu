@@ -11,6 +11,8 @@ namespace laiLaChoCu.Models.Accounts
         [Required]
         public string Lastname { get; set; }
         [Required]
+        public string Url_Image { get; set; }
+        [Required]
         public string Address { get; set; }
         [Required]
         public string Phone { get; set; }

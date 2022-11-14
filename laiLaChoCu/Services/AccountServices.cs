@@ -53,7 +53,7 @@ namespace laiLaChoCu.Services
         public AccountResponse Create(Create model)
         {
 
-            Account account = new Account(model.Title,model.FisrtName,model.Lastname,model.Address,model.Phone,model.Email,model.Password);
+            Account account = new Account(model.Title,model.FisrtName,model.Lastname,model.Url_Image,model.Address,model.Phone,model.Email,model.Password);
             if (dataContext.Accounts.Any(x => x.Email == model.Email))
             {
                 account = null;
@@ -95,7 +95,7 @@ namespace laiLaChoCu.Services
         public AccountResponse Register(RegisterRequest registerRequest)
         {
 
-            Account account = new Account(registerRequest.Title,registerRequest.FisrtName,registerRequest.Lastname,registerRequest.Address,registerRequest.Phone,registerRequest.Email,registerRequest.Password);
+            Account account = new Account(registerRequest.Title,registerRequest.FisrtName,registerRequest.Lastname,registerRequest.Url_Image,registerRequest.Address,registerRequest.Phone,registerRequest.Email,registerRequest.Password);
             if (dataContext.Accounts.Any(x => x.Email == registerRequest.Email))
             {
                 account = null;
@@ -130,6 +130,7 @@ namespace laiLaChoCu.Services
             exist.Title = model.Title;
             exist.FisrtName = model.FisrtName;
             exist.Lastname = model.Lastname;
+            exist.Url_Image = model.Url_Image;
             exist.Address = model.Address;
             exist.Phone = model.Phone;
             dataContext.Accounts.Update(exist);
