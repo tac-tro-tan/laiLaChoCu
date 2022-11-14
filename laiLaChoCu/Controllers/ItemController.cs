@@ -59,6 +59,17 @@ namespace laiLaChoCu.Controllers
                 Total = total
             });
         }
+        [HttpGet("searchprice")]
+        public async Task<ActionResult<List<object>>> GetPrice(int price1,int price2, int page = 0, int pageSize = 10)
+        {
+            var result = await itemServices.GetPrice(price1,price2,page,pageSize);
+            var total = await itemServices.countPrice(price1,price2);
+            return Ok(new
+            {
+                Results = result,
+                Total = total
+            });
+        }
         [HttpGet("{id}")]
         public async Task<ActionResult<ItemResponse>> GetById(int id)
         {

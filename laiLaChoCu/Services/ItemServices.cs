@@ -13,11 +13,13 @@ namespace laiLaChoCu.Services
         Task<List<ItemResponse>> GetArea(string keyWord, int page, int pageSize);
         Task<List<ItemResponse>> GetTopic(string keyWord, int page, int pageSize);
         Task<List<ItemResponse>> Get(int page, int pageSize);
+        Task<List<ItemResponse>> GetPrice(int price1,int price2,int page, int pageSize);
         Task<ItemResponse> GetByID(int id);
         Task<int> countAll(string keyWord);
         Task<int> countArea(string keyWord);
         Task<int> countTopic(string keyWord);
         Task<int> countAll();
+        Task<int> countPrice(int price1,int price2);
         Task<ItemResponse> Add(ItemRequest itemRequest);
         Task<ItemResponse> Update(int id, ItemRequest itemRequest);
         Task<ItemResponse> Delete(int id);
@@ -45,31 +47,37 @@ namespace laiLaChoCu.Services
 
         public async Task<int> countAll(string keyWord)
         {
-            var totalTour = await _dataContext.Items.Where(x => x.Name.Contains(keyWord ?? "")).CountAsync();
+            var total = await _dataContext.Items.Where(x => x.Name.Contains(keyWord ?? "")).CountAsync();
 
-            return totalTour;
+            return total;
         }
 
         public async Task<int> countAll()
         {
-            var totalTour = await _dataContext.Items.CountAsync();
+            var total = await _dataContext.Items.CountAsync();
 
-            return totalTour;
+            return total;
         }
 
         public async Task<int> countArea(string keyWord)
         {
-            var totalTour = await _dataContext.Items.Where(x => x.Area.Contains(keyWord ?? "")).CountAsync();
+            var total= await _dataContext.Items.Where(x => x.Area.Contains(keyWord ?? "")).CountAsync();
 
-            return totalTour;
+            return total;
         }
-    
+
+        public async Task<int> countPrice(int price1, int price2)
+        {
+            var total = await _dataContext.Items.Where(x=>x.Price >= price1 && x.Price <= price2).CountAsync();
+
+            return total;
+        }
 
         public async Task<int> countTopic(string keyWord)
         {
-         var totalTour = await _dataContext.Items.Where(x => x.Topic.Contains(keyWord ?? "")).CountAsync();
+         var total = await _dataContext.Items.Where(x => x.Topic.Contains(keyWord ?? "")).CountAsync();
 
-        return totalTour;
+        return total;
         }
 
 
@@ -109,6 +117,13 @@ namespace laiLaChoCu.Services
         {
             var exist = await _dataContext.Items.Where(x => x.Id == id).FirstOrDefaultAsync();
             return _mapper.Map<Item, ItemResponse>(exist);
+        }
+
+        public async Task<List<ItemResponse>> GetPrice(int price1, int price2, int page, int pageSize)
+        {
+            var list = await _dataContext.Items.Where(x => x.Price >= price1 && x.Price <= price2)
+               .Skip(page * pageSize).Take(pageSize).OrderBy(x => x.Name).ToListAsync();
+            return _mapper.Map<List<Item>, List<ItemResponse>>(list);
         }
 
         public async Task<List<ItemResponse>> GetTopic(string keyWord, int page, int pageSize)
