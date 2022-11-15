@@ -61,6 +61,8 @@ var builder = WebApplication.CreateBuilder(args);
     services.AddScoped<IFeedbackServices,FeedbackServices>();
     services.AddScoped<ICartServices,CartServices>();
     services.AddScoped<IJwtUtils,JwtUtils>();
+    services.AddScoped<IChatServices,ChatServices>();
+    services.AddScoped<ISupportServices, SupportServices>();
 
     builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 }

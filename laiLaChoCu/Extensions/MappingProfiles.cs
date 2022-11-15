@@ -2,6 +2,7 @@
 using laiLaChoCu.Entities;
 using laiLaChoCu.Models.Accounts;
 using laiLaChoCu.Models.Carts;
+using laiLaChoCu.Models.Chats;
 using laiLaChoCu.Models.Feedbacks;
 using laiLaChoCu.Models.Items;
 
@@ -16,6 +17,7 @@ namespace laiLaChoCu.Extensions
             CreateMap<Cart, CartResponse>();
             CreateMap<Account, AuthenticateResponse>();
             CreateMap<Account, AccountResponse>();
+            CreateMap<Chat, ChatResponse>();
         }
         
     }

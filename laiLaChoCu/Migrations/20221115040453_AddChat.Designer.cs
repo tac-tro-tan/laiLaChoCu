@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using laiLaChoCu.Helpers;
 
@@ -11,9 +12,10 @@ using laiLaChoCu.Helpers;
 namespace laiLaChoCu.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221115040453_AddChat")]
+    partial class AddChat
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -115,9 +117,6 @@ namespace laiLaChoCu.Migrations
 
                     b.Property<Guid>("AccountId2")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -254,10 +253,8 @@ namespace laiLaChoCu.Migrations
 
                             b1.ToTable("Message");
 
-                            b1.WithOwner("Chat")
+                            b1.WithOwner()
                                 .HasForeignKey("ChatId");
-
-                            b1.Navigation("Chat");
                         });
 
                     b.Navigation("Messages");

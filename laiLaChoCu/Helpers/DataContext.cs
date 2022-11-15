@@ -14,6 +14,7 @@ namespace laiLaChoCu.Helpers
         public DbSet<Role> Roles { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
         public DbSet<Cart> Carts { get; set; }
+        public DbSet<Chat> Chats { get; set; }
         private readonly IConfiguration Configuration;
 
         public DataContext(IConfiguration configuration)
