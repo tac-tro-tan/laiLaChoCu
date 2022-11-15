@@ -70,6 +70,17 @@ namespace laiLaChoCu.Controllers
                 Total = total
             });
         }
+        [HttpGet("searchaccount")]
+        public async Task<ActionResult<List<object>>> GetAccount(Guid id, int page = 0, int pageSize = 10)
+        {
+            var result = await itemServices.GetAll(id, page, pageSize);
+            var total = await itemServices.countAll(id);
+            return Ok(new
+            {
+                Results = result,
+                Total = total
+            });
+        }
         [HttpGet("{id}")]
         public async Task<ActionResult<ItemResponse>> GetById(int id)
         {

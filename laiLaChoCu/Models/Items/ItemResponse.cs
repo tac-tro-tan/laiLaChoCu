@@ -14,5 +14,6 @@ namespace laiLaChoCu.Models.Items
         public string Phone { get; set; }
         public string Describe { get; set; }
         public StatusEnum Status { get; set; }
+        public string Image { get; set; }
     }
 }

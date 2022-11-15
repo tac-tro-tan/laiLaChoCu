@@ -5,7 +5,7 @@ namespace laiLaChoCu.Entities
 {
     public class Item
     {
-        public Item( Guid accountId, string name, string topic, string area, int price, string address, string phone, string describe)
+        public Item( Guid accountId, string name, string topic, string area, int price, string address, string phone, string describe, string image)
         {
             this.AccountId = accountId;
             this.Name = name;
@@ -15,6 +15,7 @@ namespace laiLaChoCu.Entities
             this.Address = address;
             this.Phone = phone;
             this.Describe = describe;
+            this.Image = image;
         }
         [Key]
         public int Id { get; set; }
@@ -27,5 +28,6 @@ namespace laiLaChoCu.Entities
         public string Phone { get; set; }
         public string Describe { get; set; }
         public StatusEnum Status { get; set; }
+        public string Image { get; set; }
     }
 }

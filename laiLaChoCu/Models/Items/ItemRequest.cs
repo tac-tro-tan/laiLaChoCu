@@ -20,5 +20,7 @@ namespace laiLaChoCu.Models.Items
         public string Phone { get; set; }
         [Required]
         public string Describe { get; set; }
+        [Required]
+        public string Image { get; set; }
     }
 }

@@ -10,12 +10,14 @@ namespace laiLaChoCu.Services
     public interface IItemServices
     {
         Task<List<ItemResponse>> GetAll(string keyWord, int page, int pageSize);
+        Task<List<ItemResponse>> GetAll(Guid id, int page, int pageSize);
         Task<List<ItemResponse>> GetArea(string keyWord, int page, int pageSize);
         Task<List<ItemResponse>> GetTopic(string keyWord, int page, int pageSize);
         Task<List<ItemResponse>> Get(int page, int pageSize);
         Task<List<ItemResponse>> GetPrice(int price1,int price2,int page, int pageSize);
         Task<ItemResponse> GetByID(int id);
         Task<int> countAll(string keyWord);
+        Task<int> countAll(Guid id);
         Task<int> countArea(string keyWord);
         Task<int> countTopic(string keyWord);
         Task<int> countAll();
@@ -36,7 +38,7 @@ namespace laiLaChoCu.Services
 
         public async Task<ItemResponse> Add(ItemRequest itemRequest)
         {
-            Item newItem = new Item(itemRequest.AccountId, itemRequest.Name, itemRequest.Topic, itemRequest.Area, itemRequest.Price,itemRequest.Address,itemRequest.Phone, itemRequest.Describe);
+            Item newItem = new Item(itemRequest.AccountId, itemRequest.Name, itemRequest.Topic, itemRequest.Area, itemRequest.Price,itemRequest.Address,itemRequest.Phone, itemRequest.Describe,itemRequest.Image);
            
             newItem.Status = Enums.StatusEnum.APPROVED;
             this._dataContext.Items.Add(newItem);
@@ -59,6 +61,12 @@ namespace laiLaChoCu.Services
             return total;
         }
 
+        public async Task<int> countAll(Guid id)
+        {
+            var total = await _dataContext.Items.Where(x => x.AccountId == id).CountAsync();
+
+            return total;
+        }
         public async Task<int> countArea(string keyWord)
         {
             var total= await _dataContext.Items.Where(x => x.Area.Contains(keyWord ?? "")).CountAsync();
@@ -106,7 +114,13 @@ namespace laiLaChoCu.Services
             return _mapper.Map<List<Item>, List<ItemResponse>>(list);
         }
 
-        public async Task<List<ItemResponse>> GetArea(string keyWord, int page, int pageSize)
+        public async Task<List<ItemResponse>> GetAll(Guid id, int page, int pageSize)
+        {
+            var list = await _dataContext.Items.Where(x=>x.AccountId==id)
+               .Skip(page * pageSize).Take(pageSize).OrderBy(x => x.Name).ToListAsync();
+            return _mapper.Map<List<Item>, List<ItemResponse>>(list);
+        }
+            public async Task<List<ItemResponse>> GetArea(string keyWord, int page, int pageSize)
         {
             var list = await _dataContext.Items.Where(x => x.Area.Contains(keyWord ?? ""))
                .Skip(page * pageSize).Take(pageSize).OrderBy(x => x.Name).ToListAsync();
@@ -147,6 +161,7 @@ namespace laiLaChoCu.Services
                 exist.Phone = itemRequest.Phone;
                 exist.Address = itemRequest.Address;
                 exist.Describe = itemRequest.Describe;
+                exist.Image = itemRequest.Image;
                 this._dataContext.Update(exist);
                 await _dataContext.SaveChangesAsync(); 
             }
