@@ -81,6 +81,17 @@ namespace laiLaChoCu.Controllers
                 Total = total
             });
         }
+        [HttpGet("getpay")]
+        public async Task<ActionResult<List<object>>> GetPay(int page = 0, int pageSize = 10)
+        {
+            var result = await itemServices.GetPay(page, pageSize);
+            var total = await itemServices.countPay();
+            return Ok(new
+            {
+                Results = result,
+                Total = total
+            });
+        }
         [HttpGet("{id}")]
         public async Task<ActionResult<ItemResponse>> GetById(int id)
         {
@@ -111,6 +122,18 @@ namespace laiLaChoCu.Controllers
         public async Task<ActionResult<ItemResponse>> Delete(int id)
         {
             var item = await itemServices.Delete(id);
+            return Ok(item);
+        }
+        [HttpPost("pay")]
+        public async Task<ActionResult<ItemResponse>> Pay(int id)
+        {
+            var item = await itemServices.Pay(id);
+            return Ok(item);
+        }
+        [HttpPost("cancel")]
+        public async Task<ActionResult<ItemResponse>> Cancel(int id)
+        {
+            var item = await itemServices.Cancel(id);
             return Ok(item);
         }
     } 

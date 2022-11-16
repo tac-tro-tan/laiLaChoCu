@@ -4,6 +4,7 @@
     {
         DELETE,
         DRAFT,
-        APPROVED
+        APPROVED,
+        PAY
     }
 }
