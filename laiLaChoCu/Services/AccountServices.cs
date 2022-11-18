@@ -24,6 +24,8 @@ namespace laiLaChoCu.Services
         AccountResponse ResetPassword(Guid id, ResetPasswordRequest resetPasswordRequest);
         AccountResponse Update(Guid id, AccountRequest model);
         AccountResponse Delete(Guid id);
+        AccountResponse Lock(Guid id);
+        AccountResponse Open(Guid id);
     }
     public class AccountServices : IAccountServices
     {
@@ -40,7 +42,7 @@ namespace laiLaChoCu.Services
         public AuthenticateResponse Authenticate(AuthenticateRequest authenticateRequest)
         {
             var account = dataContext.Accounts.Include(x => x.Roles).SingleOrDefault(x => x.Email == authenticateRequest.Email);
-            if (account == null || !BCrypt.Verify(authenticateRequest.Password, account.Password))
+            if (account == null || !BCrypt.Verify(authenticateRequest.Password, account.Password) || account.Status == Enums.StatusEnum.DELETE)
             {
                 throw new AppException("Email or password is incorrect");
             }
@@ -53,14 +55,14 @@ namespace laiLaChoCu.Services
         public AccountResponse Create(Create model)
         {
 
-            Account account = new Account(model.Title,model.FisrtName,model.Lastname,model.Url_Image,model.Address,model.Phone,model.Email,model.Password);
+            Account account = new Account(model.Title,model.FisrtName,model.Lastname,model.Address,model.Phone,model.Url_Image,model.Email,model.Password);
             if (dataContext.Accounts.Any(x => x.Email == model.Email))
             {
                 account = null;
             }
             else
             {
-
+                account.Status = Enums.StatusEnum.APPROVED;
                 account.Password = BCrypt.HashPassword(model.Password);
                 dataContext.Accounts.Add(account);
                 dataContext.SaveChanges();
@@ -92,17 +94,41 @@ namespace laiLaChoCu.Services
             return mapper.Map<AccountResponse>(exist);
         }
 
+        public AccountResponse Lock(Guid id)
+        {
+            Account exist = dataContext.Accounts.Find(id);
+            if (exist != null)
+            {
+                exist.Status = Enums.StatusEnum.DELETE;
+                this.dataContext.Accounts.Update(exist);
+                dataContext.SaveChanges();
+            }
+            return mapper.Map<Account, AccountResponse>(exist);
+        }
+
+        public AccountResponse Open(Guid id)
+        {
+            Account exist = dataContext.Accounts.Find(id);
+            if (exist != null)
+            {
+                exist.Status = Enums.StatusEnum.APPROVED;
+                this.dataContext.Accounts.Update(exist);
+                dataContext.SaveChanges();
+            }
+            return mapper.Map<Account, AccountResponse>(exist);
+        }
+
         public AccountResponse Register(RegisterRequest registerRequest)
         {
 
-            Account account = new Account(registerRequest.Title,registerRequest.FisrtName,registerRequest.Lastname,registerRequest.Url_Image,registerRequest.Address,registerRequest.Phone,registerRequest.Email,registerRequest.Password);
+            Account account = new Account(registerRequest.Title,registerRequest.FisrtName,registerRequest.Lastname,registerRequest.Address,registerRequest.Phone,registerRequest.Url_Image,registerRequest.Email,registerRequest.Password);
             if (dataContext.Accounts.Any(x => x.Email == registerRequest.Email))
             {
                 account = null;
             }
             else
             {
-
+                account.Status = Enums.StatusEnum.APPROVED;
                 account.Password = BCrypt.HashPassword(registerRequest.Password);
                 dataContext.Accounts.Add(account);
                 dataContext.SaveChanges();

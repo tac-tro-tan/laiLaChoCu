@@ -46,7 +46,7 @@ namespace laiLaChoCu.Services
             Item newItem = new Item(itemRequest.AccountId, itemRequest.Name, itemRequest.Topic, itemRequest.Area, itemRequest.Price,itemRequest.Address,itemRequest.Phone, itemRequest.Describe,itemRequest.Image);
 
             newItem.Status = Enums.StatusEnum.APPROVED;
-            newItem.Created = DateTime.Now;
+           // newItem.Created = DateTime.Now;
             this._dataContext.Items.Add(newItem);
             await _dataContext.SaveChangesAsync();
     
@@ -94,7 +94,7 @@ namespace laiLaChoCu.Services
 
         public async Task<int> countPay()
         {
-            var total = await _dataContext.Items.CountAsync();
+            var total = await _dataContext.Items.Where(x=>x.Status==Enums.StatusEnum.PAY).CountAsync();
 
             return total; 
         }

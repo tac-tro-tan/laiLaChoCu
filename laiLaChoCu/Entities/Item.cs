@@ -29,6 +29,6 @@ namespace laiLaChoCu.Entities
         public string Describe { get; set; }
         public StatusEnum Status { get; set; }
         public string Image { get; set; }
-        public DateTime Created { get; set; }
+        public string Created { get; set; }
     }
 }

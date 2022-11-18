@@ -5,6 +5,7 @@ using laiLaChoCu.Models.Carts;
 using laiLaChoCu.Models.Chats;
 using laiLaChoCu.Models.Feedbacks;
 using laiLaChoCu.Models.Items;
+using laiLaChoCu.Models.Statisticals;
 
 namespace laiLaChoCu.Extensions
 {
@@ -18,6 +19,7 @@ namespace laiLaChoCu.Extensions
             CreateMap<Account, AuthenticateResponse>();
             CreateMap<Account, AccountResponse>();
             CreateMap<Chat, ChatResponse>();
+            CreateMap<Statistical, StatisticalResponse>();
         }
         
     }

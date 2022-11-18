@@ -15,6 +15,8 @@ namespace laiLaChoCu.Models.Accounts
         [Required]
         public string Phone { get; set; }
         [Required]
+        public string Url_Image { get; set; }
+        [Required]
         public string Email { get; set; }
         [Required]
         [MinLength(6)]

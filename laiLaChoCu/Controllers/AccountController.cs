@@ -71,5 +71,17 @@ namespace laiLaChoCu.Controllers
             var account = accountServices.ResetPassword(id, resetPasswordRequest);
             return Ok(account);
         }
+        [HttpPost("lock")]
+        public ActionResult<AccountResponse>Lock(Guid id)
+        {
+            var account = accountServices.Lock(id);
+            return Ok(account);
+        }
+        [HttpPost("open")]
+        public ActionResult<AccountResponse> Open(Guid id)
+        {
+            var account = accountServices.Open(id);
+            return Ok(account);
+        }
     }
 }
