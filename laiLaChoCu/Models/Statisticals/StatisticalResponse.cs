@@ -2,8 +2,9 @@
 {
     public class StatisticalResponse
     {
-        public int id { get; set; }
-        public string name { get; set; }
+        public int Id { get; set; }
+        public int year { get; set; }
+        public int month { get; set; }
         public int Amount { get; set; }
     }
 }

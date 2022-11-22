@@ -15,37 +15,15 @@ namespace laiLaChoCu.Controllers
             this.statisticalServices = statisticalServices;
         }
         [HttpGet("get")]
-        public async Task<ActionResult<List<object>>> Get()
+        public async Task<ActionResult<List<object>>> Get(int page=0, int pageSize=10)
         {
-            var list = statisticalServices.Get();
+            var result = await statisticalServices.Get(page,pageSize);
+            var total = await statisticalServices.countAll();
             return Ok(new
             {
-                Results = list
+                Results = result,
+                Total = total
             });
-        }
-        [HttpPost("account")]
-        public async Task<ActionResult<StatisticalResponse>> Account()
-        {
-            var statistical = statisticalServices.Account();
-            return Ok(statistical);
-        }
-        [HttpPost("item")]
-        public async Task<ActionResult<StatisticalResponse>> Item()
-        {
-            var statistical = statisticalServices.Item();
-            return Ok(statistical);
-        }
-        [HttpPost("upaccount")]
-        public async Task<ActionResult<StatisticalResponse>> UpdateAccount(int id)
-        {
-            var statistical = statisticalServices.UpdateAccount(id);
-            return Ok(statistical);
-        }
-        [HttpPost("upitem")]
-        public async Task<ActionResult<StatisticalResponse>> UpdateItem(int id)
-        {
-            var statistical = statisticalServices.UpdateItem(id);
-            return Ok(statistical);
         }
     }
 }

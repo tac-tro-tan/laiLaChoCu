@@ -1,0 +1,7 @@
+string -> datatime
+bảng thống kế id int
+số lượng int
+tháng int
+năm int 
+
+if năm == get tháng và số lượng
