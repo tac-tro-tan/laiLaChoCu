@@ -1,4 +1,5 @@
-﻿using laiLaChoCu.Models.Carts;
+﻿using laiLaChoCu.Authorization;
+using laiLaChoCu.Models.Carts;
 using laiLaChoCu.Models.Chats;
 using laiLaChoCu.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -15,12 +16,14 @@ namespace laiLaChoCu.Controllers
         {
             this.chatServices = chatServices;
         }
+        [Authorize]
         [HttpGet("get")]
         public async Task<ActionResult<List<object>>> Get(int id)
         {
             var chat = await chatServices.GetAll(id);
             return Ok(chat);
         }
+        [Authorize]
         [HttpPost("add")]
         public async Task<ActionResult<ChatResponse>> Chat([FromBody] ChatRequest chatRequest)
         {
@@ -31,6 +34,7 @@ namespace laiLaChoCu.Controllers
             }
             return Ok(chat); ;
         }
+        [Authorize]
         [HttpPost("chat")]
         public async Task<ActionResult<ChatResponse>> Message(int id,[FromBody] MessageRequest messageRequest)
         {

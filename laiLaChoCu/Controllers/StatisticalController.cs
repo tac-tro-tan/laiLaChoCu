@@ -1,4 +1,5 @@
-﻿using laiLaChoCu.Models.Statisticals;
+﻿using laiLaChoCu.Authorization;
+using laiLaChoCu.Models.Statisticals;
 using laiLaChoCu.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,6 +15,7 @@ namespace laiLaChoCu.Controllers
         {
             this.statisticalServices = statisticalServices;
         }
+        [Authorize("ADMIN")]
         [HttpGet("get")]
         public async Task<ActionResult<List<object>>> Get(int page=0, int pageSize=10)
         {

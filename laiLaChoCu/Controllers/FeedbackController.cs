@@ -1,4 +1,5 @@
-﻿using laiLaChoCu.Models.Feedbacks;
+﻿using laiLaChoCu.Authorization;
+using laiLaChoCu.Models.Feedbacks;
 using laiLaChoCu.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,6 +15,7 @@ namespace laiLaChoCu.Controllers
         {
             this.feedbackServices = feedbackServices;
         }
+        [Authorize("ADMIN")]
         [HttpGet("get")]
         public async Task<ActionResult<List<object>>> Get(int page=0,int pageSize = 10)
         {
@@ -25,12 +27,14 @@ namespace laiLaChoCu.Controllers
                 Total = total
             });
         }
+        [Authorize("ADMIN")]
         [HttpGet("{id}")]
         public async Task<ActionResult<FeedbackResponse>> GetByid(int id)
         {
             var feedback = await feedbackServices.GetByID(id);
             return Ok(feedback);
         }
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<FeedbackResponse>> Add([FromBody] FeedbackRequest feedbackRequest)
         {
@@ -41,6 +45,7 @@ namespace laiLaChoCu.Controllers
             }
             return Ok(feedback);
         }
+        [Authorize("ADMIN")]
         [HttpDelete("{id}")]
         public async Task<ActionResult<FeedbackResponse>> Delete(int id)
         {

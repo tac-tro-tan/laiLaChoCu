@@ -1,4 +1,5 @@
-﻿using laiLaChoCu.Models.Items;
+﻿using laiLaChoCu.Authorization;
+using laiLaChoCu.Models.Items;
 using laiLaChoCu.Services;
 using Microsoft.AspNetCore.Mvc;
 using Org.BouncyCastle.Asn1.Mozilla;
@@ -15,6 +16,7 @@ namespace laiLaChoCu.Controllers
         {
             this.itemServices = itemServices;
         }
+        [AllowAnonymous]
         [HttpGet("get")]
         public async Task<ActionResult<List<object>>> Get(int page = 0, int pageSize = 10)
         {
@@ -26,6 +28,7 @@ namespace laiLaChoCu.Controllers
                 Total = total
             });
         }
+        [AllowAnonymous]
         [HttpGet("search")]
         public async Task<ActionResult<List<object>>> Get(string keyWord, int page = 0, int pageSize = 10)
         {
@@ -37,6 +40,7 @@ namespace laiLaChoCu.Controllers
                 Total = total
             });
         }
+        [AllowAnonymous]
         [HttpGet("searcharea")]
         public async Task<ActionResult<List<object>>> GetArea(string keyWord, int page = 0, int pageSize = 10)
         {
@@ -48,6 +52,7 @@ namespace laiLaChoCu.Controllers
                 Total = total
             });
         }
+        [AllowAnonymous]
         [HttpGet("searchtopic")]
         public async Task<ActionResult<List<object>>> GetTopic(string keyWord, int page = 0, int pageSize = 10)
         {
@@ -59,6 +64,7 @@ namespace laiLaChoCu.Controllers
                 Total = total
             });
         }
+        [AllowAnonymous]
         [HttpGet("searchprice")]
         public async Task<ActionResult<List<object>>> GetPrice(int price1,int price2, int page = 0, int pageSize = 10)
         {
@@ -70,6 +76,7 @@ namespace laiLaChoCu.Controllers
                 Total = total
             });
         }
+        [Authorize]
         [HttpGet("searchaccount")]
         public async Task<ActionResult<List<object>>> GetAccount(Guid id, int page = 0, int pageSize = 10)
         {
@@ -81,6 +88,7 @@ namespace laiLaChoCu.Controllers
                 Total = total
             });
         }
+        [Authorize("ADMIN")]
         [HttpGet("getpay")]
         public async Task<ActionResult<List<object>>> GetPay(int page = 0, int pageSize = 10)
         {
@@ -92,12 +100,14 @@ namespace laiLaChoCu.Controllers
                 Total = total
             });
         }
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<ActionResult<ItemResponse>> GetById(int id)
         {
             var item = await itemServices.GetByID(id);
             return Ok(item);
         }
+        [Authorize]
         [HttpPost("add")]
         public async Task<ActionResult<ItemResponse>> Add([FromBody] ItemRequest itemRequest)
         {
@@ -108,6 +118,7 @@ namespace laiLaChoCu.Controllers
             }
             return Ok(item);
         }
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<ActionResult<ItemResponse>> Update(int id, [FromBody] ItemRequest itemRequest)
         {
@@ -118,18 +129,21 @@ namespace laiLaChoCu.Controllers
             }
             return Ok(item);
         }
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<ActionResult<ItemResponse>> Delete(int id)
         {
             var item = await itemServices.Delete(id);
             return Ok(item);
         }
+        [Authorize("ADMIN")]
         [HttpPost("pay")]
         public async Task<ActionResult<ItemResponse>> Pay(int id)
         {
             var item = await itemServices.Pay(id);
             return Ok(item);
         }
+        [Authorize("ADMIN")]
         [HttpPost("cancel")]
         public async Task<ActionResult<ItemResponse>> Cancel(int id)
         {

@@ -8,9 +8,9 @@ namespace laiLaChoCu.Services
 {
     public interface ICartServices
     {
-        Task<List<CartResponse>> Get(int page, int pageSize);
+        Task<List<CartResponse>> Get(Guid id,int page, int pageSize);
         Task<CartResponse> GetByID(int id);
-        Task<int> countAll();
+        Task<int> countAll(Guid id);
         Task<CartResponse> Add(CartRequest cartRequest);
         Task<CartResponse> Delete(int id);
     }
@@ -33,9 +33,9 @@ namespace laiLaChoCu.Services
             return mapper.Map<Cart,CartResponse>(cart);
         }
 
-        public async Task<int> countAll()
+        public async Task<int> countAll(Guid id)
         {
-            var total = await dataContext.Carts.CountAsync();
+            var total = await dataContext.Carts.Where(x=>x.AccountId==id).CountAsync();
 
             return total;
         }
@@ -51,9 +51,9 @@ namespace laiLaChoCu.Services
             return mapper.Map<Cart, CartResponse>(cart);
         }
 
-        public async Task<List<CartResponse>> Get(int page, int pageSize)
+        public async Task<List<CartResponse>> Get(Guid id, int page, int pageSize)
         {
-            var list = await dataContext.Carts.Skip(page*pageSize).Take(pageSize).ToListAsync();
+            var list = await dataContext.Carts.Where(x=>x.AccountId ==id).Skip(page*pageSize).Take(pageSize).ToListAsync();
             return mapper.Map<List<Cart>,List<CartResponse>>(list);
         }
 
