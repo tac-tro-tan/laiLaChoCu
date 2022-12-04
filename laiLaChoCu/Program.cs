@@ -55,7 +55,7 @@ var builder = WebApplication.CreateBuilder(args);
         x => x.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
     // configure strongly typed settings object
-   // services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+    services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
     services.AddScoped<IAccountServices,AccountServices>();
     services.AddScoped<IItemServices,ItemServices>();
     services.AddScoped<IFeedbackServices,FeedbackServices>();

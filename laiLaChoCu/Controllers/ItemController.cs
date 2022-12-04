@@ -17,10 +17,10 @@ namespace laiLaChoCu.Controllers
             this.itemServices = itemServices;
         }
         [AllowAnonymous]
-        [HttpGet("get")]
-        public async Task<ActionResult<List<object>>> Get(int page = 0, int pageSize = 10)
+        [HttpPost("get")]
+        public async Task<ActionResult<List<object>>> Get([FromBody] Request request)
         {
-            var result = await itemServices.Get(page, pageSize);
+            var result = await itemServices.Get(request);
             var total = await itemServices.countAll();
             return Ok(new
             {
@@ -29,11 +29,11 @@ namespace laiLaChoCu.Controllers
             });
         }
         [AllowAnonymous]
-        [HttpGet("search")]
-        public async Task<ActionResult<List<object>>> Get(string keyWord, int page = 0, int pageSize = 10)
+        [HttpPost("search")]
+        public async Task<ActionResult<List<object>>> Get([FromBody] SearchRequest searchRequest)
         {
-            var result = await itemServices.GetAll(keyWord, page, pageSize);
-            var total = await itemServices.countAll(keyWord);
+            var result = await itemServices.GetAll(searchRequest);
+            var total = await itemServices.countAll(searchRequest.keyWord);
             return Ok(new
             {
                 Results = result,
@@ -41,11 +41,11 @@ namespace laiLaChoCu.Controllers
             });
         }
         [AllowAnonymous]
-        [HttpGet("searcharea")]
-        public async Task<ActionResult<List<object>>> GetArea(string keyWord, int page = 0, int pageSize = 10)
+        [HttpPost("searcharea")]
+        public async Task<ActionResult<List<object>>> GetArea([FromBody] SearchRequest searchRequest)
         {
-            var result = await itemServices.GetArea(keyWord, page, pageSize);
-            var total = await itemServices.countArea(keyWord);
+            var result = await itemServices.GetArea(searchRequest);
+            var total = await itemServices.countArea(searchRequest.keyWord);
             return Ok(new
             {
                 Results = result,
@@ -53,11 +53,11 @@ namespace laiLaChoCu.Controllers
             });
         }
         [AllowAnonymous]
-        [HttpGet("searchtopic")]
-        public async Task<ActionResult<List<object>>> GetTopic(string keyWord, int page = 0, int pageSize = 10)
+        [HttpPost("searchtopic")]
+        public async Task<ActionResult<List<object>>> GetTopic([FromBody] SearchRequest searchRequest)
         {
-            var result = await itemServices.GetTopic(keyWord, page, pageSize);
-            var total = await itemServices.countTopic(keyWord);
+            var result = await itemServices.GetTopic(searchRequest);
+            var total = await itemServices.countTopic(searchRequest.keyWord);
             return Ok(new
             {
                 Results = result,
@@ -65,23 +65,23 @@ namespace laiLaChoCu.Controllers
             });
         }
         [AllowAnonymous]
-        [HttpGet("searchprice")]
-        public async Task<ActionResult<List<object>>> GetPrice(int price1,int price2, int page = 0, int pageSize = 10)
+        [HttpPost("searchprice")]
+        public async Task<ActionResult<List<object>>> GetPrice([FromBody] PriceRequest priceRequest)
         {
-            var result = await itemServices.GetPrice(price1,price2,page,pageSize);
-            var total = await itemServices.countPrice(price1,price2);
+            var result = await itemServices.GetPrice(priceRequest);
+            var total = await itemServices.countPrice(priceRequest.Price1, priceRequest.Price2);
             return Ok(new
             {
                 Results = result,
                 Total = total
             });
         }
-        [Authorize]
-        [HttpGet("searchaccount")]
-        public async Task<ActionResult<List<object>>> GetAccount(Guid id, int page = 0, int pageSize = 10)
+        
+        [HttpPost("searchaccount")]
+        public async Task<ActionResult<List<object>>> GetAccount([FromBody] CartRequet cartRequet)
         {
-            var result = await itemServices.GetAll(id, page, pageSize);
-            var total = await itemServices.countAll(id);
+            var result = await itemServices.GetAll(cartRequet);
+            var total = await itemServices.countAll(cartRequet.Id);
             return Ok(new
             {
                 Results = result,
@@ -89,10 +89,10 @@ namespace laiLaChoCu.Controllers
             });
         }
         [Authorize("ADMIN")]
-        [HttpGet("getpay")]
-        public async Task<ActionResult<List<object>>> GetPay(int page = 0, int pageSize = 10)
+        [HttpPost("getpay")]
+        public async Task<ActionResult<List<object>>> GetPay([FromBody] Request request)
         {
-            var result = await itemServices.GetPay(page, pageSize);
+            var result = await itemServices.GetPay(request);
             var total = await itemServices.countPay();
             return Ok(new
             {

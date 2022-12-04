@@ -10,13 +10,13 @@ namespace laiLaChoCu.Services
 {
     public interface IItemServices
     {
-        Task<List<ItemResponse>> GetAll(string keyWord, int page, int pageSize);
-        Task<List<ItemResponse>> GetAll(Guid id, int page, int pageSize);
-        Task<List<ItemResponse>> GetArea(string keyWord, int page, int pageSize);
-        Task<List<ItemResponse>> GetTopic(string keyWord, int page, int pageSize);
-        Task<List<ItemResponse>> Get(int page, int pageSize);
-        Task<List<ItemResponse>> GetPay(int page, int pageSize);
-        Task<List<ItemResponse>> GetPrice(int price1,int price2,int page, int pageSize);
+        Task<List<ItemResponse>> GetAll(SearchRequest searchRequest);
+        Task<List<ItemResponse>> GetAll(CartRequet cartRequet);
+        Task<List<ItemResponse>> GetArea(SearchRequest searchRequest);
+        Task<List<ItemResponse>> GetTopic(SearchRequest searchRequest);
+        Task<List<ItemResponse>> Get(Request request);
+        Task<List<ItemResponse>> GetPay(Request request);
+        Task<List<ItemResponse>> GetPrice(PriceRequest priceRequest);
         Task<ItemResponse> GetByID(int id);
         Task<int> countAll(string keyWord);
         Task<int> countAll(Guid id);
@@ -125,30 +125,30 @@ namespace laiLaChoCu.Services
             return _mapper.Map<Item, ItemResponse>(exist);
         }
 
-        public async Task<List<ItemResponse>> Get(int page, int pageSize)
+        public async Task<List<ItemResponse>> Get(Request request)
         {
             var list = await _dataContext.Items
-                .Skip(page * pageSize).Take(pageSize).OrderBy(x => x.Name).ToListAsync();
+                .Skip(request.page * request.pageSize).Take(request.pageSize).OrderBy(x => x.Name).ToListAsync();
             return _mapper.Map<List<Item>, List<ItemResponse>>(list);
         }
 
-        public async Task<List<ItemResponse>> GetAll(string keyWord, int page, int pageSize)
+        public async Task<List<ItemResponse>> GetAll(SearchRequest searchRequest)
         {
-            var list = await _dataContext.Items.Where(x => x.Name.Contains(keyWord ?? ""))
-               .Skip(page * pageSize).Take(pageSize).OrderBy(x => x.Name).ToListAsync();
+            var list = await _dataContext.Items.Where(x => x.Name.Contains(searchRequest.keyWord ?? ""))
+               .Skip(searchRequest.page * searchRequest.pageSize).Take(searchRequest.pageSize).OrderBy(x => x.Name).ToListAsync();
             return _mapper.Map<List<Item>, List<ItemResponse>>(list);
         }
 
-        public async Task<List<ItemResponse>> GetAll(Guid id, int page, int pageSize)
+        public async Task<List<ItemResponse>> GetAll(CartRequet cartRequet)
         {
-            var list = await _dataContext.Items.Where(x=>x.AccountId==id)
-               .Skip(page * pageSize).Take(pageSize).OrderBy(x => x.Name).ToListAsync();
+            var list = await _dataContext.Items.Where(x=>x.AccountId== cartRequet.Id)
+               .Skip(cartRequet.page * cartRequet.pageSize).Take(cartRequet.pageSize).OrderBy(x => x.Name).ToListAsync();
             return _mapper.Map<List<Item>, List<ItemResponse>>(list);
         }
-            public async Task<List<ItemResponse>> GetArea(string keyWord, int page, int pageSize)
+            public async Task<List<ItemResponse>> GetArea(SearchRequest searchRequest)
         {
-            var list = await _dataContext.Items.Where(x => x.Area.Contains(keyWord ?? "") )
-               .Skip(page * pageSize).Take(pageSize).OrderBy(x => x.Name).ToListAsync();
+            var list = await _dataContext.Items.Where(x => x.Area.Contains(searchRequest.keyWord ?? "") )
+               .Skip(searchRequest.page * searchRequest.pageSize).Take(searchRequest.pageSize).OrderBy(x => x.Name).ToListAsync();
             return _mapper.Map<List<Item>, List<ItemResponse>>(list);
         }
 
@@ -158,24 +158,24 @@ namespace laiLaChoCu.Services
             return _mapper.Map<Item, ItemResponse>(exist);
         }
 
-        public async Task<List<ItemResponse>> GetPay(int page, int pageSize)
+        public async Task<List<ItemResponse>> GetPay(Request request)
         {
             var list = await _dataContext.Items.Where(x => x.Status == Enums.StatusEnum.PAY)
-               .Skip(page * pageSize).Take(pageSize).OrderBy(x => x.Name).ToListAsync();
+               .Skip(request.page * request.pageSize).Take(request.pageSize).OrderBy(x => x.Name).ToListAsync();
             return _mapper.Map<List<Item>, List<ItemResponse>>(list);
         }
 
-        public async Task<List<ItemResponse>> GetPrice(int price1, int price2, int page, int pageSize)
+        public async Task<List<ItemResponse>> GetPrice(PriceRequest priceRequest)
         {
-            var list = await _dataContext.Items.Where(x => x.Price >= price1 && x.Price <= price2)
-               .Skip(page * pageSize).Take(pageSize).OrderBy(x => x.Name).ToListAsync();
+            var list = await _dataContext.Items.Where(x => x.Price >= priceRequest.Price1 && x.Price <= priceRequest.Price2)
+               .Skip(priceRequest.page * priceRequest.pageSize).Take(priceRequest.pageSize).OrderBy(x => x.Name).ToListAsync();
             return _mapper.Map<List<Item>, List<ItemResponse>>(list);
         }
 
-        public async Task<List<ItemResponse>> GetTopic(string keyWord, int page, int pageSize)
+        public async Task<List<ItemResponse>> GetTopic(SearchRequest searchRequest)
         {
-            var list = await _dataContext.Items.Where(x => x.Topic.Contains(keyWord ?? ""))
-               .Skip(page * pageSize).Take(pageSize).OrderBy(x => x.Name).ToListAsync();
+            var list = await _dataContext.Items.Where(x => x.Topic.Contains(searchRequest.keyWord ?? ""))
+               .Skip(searchRequest.page * searchRequest.pageSize).Take(searchRequest.pageSize).OrderBy(x => x.Name).ToListAsync();
             return _mapper.Map<List<Item>, List<ItemResponse>>(list);
         }
 

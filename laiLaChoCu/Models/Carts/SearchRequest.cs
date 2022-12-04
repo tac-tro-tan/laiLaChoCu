@@ -2,11 +2,13 @@
 
 namespace laiLaChoCu.Models.Carts
 {
-    public class CartRequest
+    public class SearchRequest
     {
         [Required]
         public Guid AccountId { get; set; }
         [Required]
-        public int ItemId { get; set; }
+        public int page { get; set; }
+        [Required]
+        public int pageSize { get; set; }   
     }
 }
