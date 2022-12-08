@@ -18,9 +18,9 @@ namespace laiLaChoCu.Controllers
         }
         [Authorize]
         [HttpGet("get")]
-        public async Task<ActionResult<List<object>>> Get(int id)
+        public async Task<ActionResult<List<object>>> Get(int id, Guid accountId)
         {
-            var chat = await chatServices.GetAll(id);
+            var chat = await chatServices.GetAll(id, accountId);
             return Ok(chat);
         }
         [Authorize]
@@ -39,6 +39,13 @@ namespace laiLaChoCu.Controllers
         public async Task<ActionResult<ChatResponse>> Message(int id,[FromBody] MessageRequest messageRequest)
         {
             var chat = await chatServices.Chat(id, messageRequest);
+            return Ok(chat);
+        }
+        [Authorize]
+        [HttpGet("get all")]
+        public async Task<ActionResult<List<object>>> Get12( Guid accountId)
+        {
+            var chat = await chatServices.GetAll( accountId);
             return Ok(chat);
         }
     }

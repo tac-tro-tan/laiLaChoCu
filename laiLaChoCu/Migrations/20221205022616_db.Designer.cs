@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using laiLaChoCu.Helpers;
 
@@ -11,9 +12,10 @@ using laiLaChoCu.Helpers;
 namespace laiLaChoCu.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221205022616_db")]
+    partial class db
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -118,14 +120,6 @@ namespace laiLaChoCu.Migrations
 
                     b.Property<Guid>("AccountId2")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name1")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name2")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -262,46 +256,6 @@ namespace laiLaChoCu.Migrations
                         .HasForeignKey("RolesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("laiLaChoCu.Entities.Chat", b =>
-                {
-                    b.OwnsMany("laiLaChoCu.Entities.Message", "Messages", b1 =>
-                        {
-                            b1.Property<int>("ChatId")
-                                .HasColumnType("int");
-
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int");
-
-                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"), 1L, 1);
-
-                            b1.Property<Guid>("AccountId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<string>("Content")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<DateTime>("Created")
-                                .HasColumnType("datetime2");
-
-                            b1.Property<string>("Name")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.HasKey("ChatId", "Id");
-
-                            b1.ToTable("Message");
-
-                            b1.WithOwner("Chat")
-                                .HasForeignKey("ChatId");
-
-                            b1.Navigation("Chat");
-                        });
-
-                    b.Navigation("Messages");
                 });
 #pragma warning restore 612, 618
         }

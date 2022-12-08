@@ -9,7 +9,8 @@ namespace laiLaChoCu.Services
 {
     public interface IChatServices
     {
-        Task<List<ChatResponse>> GetAll(int id);
+        Task<List<ChatResponse>> GetAll(int id,Guid accountId);
+        Task<List<ChatResponse>> GetAll( Guid accountId);
         Task<ChatResponse> Chat(int id,MessageRequest mode);
         Task<ChatResponse> Add(ChatRequest mode);
     }
@@ -27,7 +28,11 @@ namespace laiLaChoCu.Services
 
         public async Task<ChatResponse> Add(ChatRequest mode)
         {
+            Account account1 = dataContext.Accounts.Where(x => x.Id == mode.AccountId1).FirstOrDefault();
+            Account account2 = dataContext.Accounts.Where(x => x.Id == mode.AccountId2).FirstOrDefault();
             Chat chat =new Chat(mode.AccountId1,mode.AccountId2);
+            chat.Name1 = account1.Title;
+            chat.Name2 = account2.Title;
             chat.Status = Enums.StatusEnum.DRAFT;
             this.dataContext.Add(chat);
             await dataContext.SaveChangesAsync();
@@ -49,10 +54,17 @@ namespace laiLaChoCu.Services
             return mapper.Map<Chat, ChatResponse>(chat);
         }
 
-        public async Task<List<ChatResponse>> GetAll(int id)
+        public async Task<List<ChatResponse>> GetAll(int id,Guid accountId)
         {
-            var list = await dataContext.Chats.Where(x=>x.Id==id&&x.Status==Enums.StatusEnum.APPROVED).ToListAsync();
+            var list = await dataContext.Chats.Where(x=>x.Id==id&&x.Status==Enums.StatusEnum.APPROVED && (x.AccountId1==accountId||x.AccountId2==accountId)).ToListAsync();
+            return mapper.Map<List<Chat>, List<ChatResponse>>(list);
+        }
+
+        public async Task<List<ChatResponse>> GetAll(Guid accountId)
+        {
+            var list = await dataContext.Chats.Where(x => x.Status == Enums.StatusEnum.APPROVED && (x.AccountId1 == accountId || x.AccountId2 == accountId)).ToListAsync();
             return mapper.Map<List<Chat>, List<ChatResponse>>(list);
         }
     }
 }
+ 

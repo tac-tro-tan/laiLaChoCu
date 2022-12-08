@@ -11,13 +11,14 @@ namespace laiLaChoCu.Services
     public class SupportServices : ISupportServices
     {
         private readonly DataContext dataContext;
-        public Message Message(string name,MessageRequest messageRequest)
+        public Message Message(string name, MessageRequest messagerequest)
         {
-            
-            var message = new Message { 
-                Id = messageRequest.IdChat,
+
+            var message = new Message
+            {
+                AccountId = messagerequest.IdChat,
                 Name = name,
-                Content = messageRequest.Message,
+                Content = messagerequest.Message,
                 Created = DateTime.Now
             };
             return message;

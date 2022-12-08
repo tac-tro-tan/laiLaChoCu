@@ -19,6 +19,7 @@ namespace laiLaChoCu.Extensions
             CreateMap<Account, AuthenticateResponse>();
             CreateMap<Account, AccountResponse>();
             CreateMap<Chat, ChatResponse>();
+           
             CreateMap<Statistical, StatisticalResponse>();
         }
         
