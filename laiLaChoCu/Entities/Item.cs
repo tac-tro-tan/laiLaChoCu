@@ -30,5 +30,6 @@ namespace laiLaChoCu.Entities
         public StatusEnum Status { get; set; }
         public string Image { get; set; }
         public DateTime Created { get; set; }
+        public DateTime PayTime { get; set; }
     }
 }

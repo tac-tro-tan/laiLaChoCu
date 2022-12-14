@@ -88,7 +88,7 @@ namespace laiLaChoCu.Controllers
                 Total = total
             });
         }
-        [Authorize("ADMIN")]
+
         [HttpPost("getpay")]
         public async Task<ActionResult<List<object>>> GetPay([FromBody] Request request)
         {
@@ -100,6 +100,18 @@ namespace laiLaChoCu.Controllers
                 Total = total
             });
         }
+        [HttpPost("getQc")]
+        public async Task<ActionResult<List<object>>> GetQC([FromBody] Request request)
+        {
+            var result = await itemServices.GetQc(request);
+            var total = await itemServices.countQc();
+            return Ok(new
+            {
+                Results = result,
+                Total = total
+            });
+        }
+
         [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<ActionResult<ItemResponse>> GetById(int id)
@@ -141,6 +153,13 @@ namespace laiLaChoCu.Controllers
         public async Task<ActionResult<ItemResponse>> Pay(int id)
         {
             var item = await itemServices.Pay(id);
+            return Ok(item);
+        }
+        [Authorize]
+        [HttpPost("Qc")]
+        public async Task<ActionResult<ItemResponse>> Qc(int id)
+        {
+            var item = await itemServices.quangcao(id);
             return Ok(item);
         }
         [Authorize("ADMIN")]

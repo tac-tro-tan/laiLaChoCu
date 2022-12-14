@@ -29,6 +29,9 @@ namespace laiLaChoCu.Services
         Task<ItemResponse> Update(int id, ItemRequest itemRequest);
         Task<ItemResponse> Delete(int id);
         Task<ItemResponse> Pay(int id);
+        Task<List<ItemResponse>> GetQc(Request request);
+        Task<int> countQc();
+        Task<ItemResponse> quangcao(int id);
         Task<ItemResponse> Cancel(int id);
     }
     public class ItemServices : IItemServices
@@ -106,6 +109,13 @@ namespace laiLaChoCu.Services
             return total;
         }
 
+        public async Task<int> countQc()
+        {
+            var total = await _dataContext.Items.Where(x => x.Status == Enums.StatusEnum.DRAFT).CountAsync();
+
+            return total;
+        }
+
         public async Task<int> countTopic(string keyWord)
         {
          var total = await _dataContext.Items.Where(x => x.Topic.Contains(keyWord ?? "")).CountAsync();
@@ -172,6 +182,13 @@ namespace laiLaChoCu.Services
             return _mapper.Map<List<Item>, List<ItemResponse>>(list);
         }
 
+        public async Task<List<ItemResponse>> GetQc(Request request)
+        {
+            var list = await _dataContext.Items.Where(x => x.Status == Enums.StatusEnum.DRAFT)
+              .Skip(request.page * request.pageSize).Take(request.pageSize).OrderBy(x => x.Name).ToListAsync();
+            return _mapper.Map<List<Item>, List<ItemResponse>>(list);
+        }
+
         public async Task<List<ItemResponse>> GetTopic(SearchRequest searchRequest)
         {
             var list = await _dataContext.Items.Where(x => x.Topic.Contains(searchRequest.keyWord ?? ""))
@@ -185,6 +202,20 @@ namespace laiLaChoCu.Services
             if(exist != null)
             {
                 exist.Status = Enums.StatusEnum.PAY;
+                exist.PayTime = DateTime.Now;
+                this._dataContext.Update(exist);
+                await _dataContext.SaveChangesAsync();
+            }
+            return _mapper.Map<Item, ItemResponse>(exist);
+        }
+
+        public async Task<ItemResponse> quangcao(int id)
+        {
+            Item exist = _dataContext.Items.Where(x => x.Id == id).FirstOrDefault();
+            if (exist != null)
+            {
+                exist.Status = Enums.StatusEnum.DRAFT;
+                exist.PayTime = DateTime.Now;
                 this._dataContext.Update(exist);
                 await _dataContext.SaveChangesAsync();
             }
