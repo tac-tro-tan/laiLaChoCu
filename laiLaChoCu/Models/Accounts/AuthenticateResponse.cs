@@ -1,4 +1,6 @@
-﻿namespace laiLaChoCu.Models.Accounts
+﻿using laiLaChoCu.Entities;
+
+namespace laiLaChoCu.Models.Accounts
 {
     public class AuthenticateResponse
     {
@@ -12,6 +14,7 @@
         public string Url_Image { get; set; }
         public string Password { get; set; }
         public string JwtToken { get; set; }
+        public List<Role> Roles { get; set; }
     }
 }
 
