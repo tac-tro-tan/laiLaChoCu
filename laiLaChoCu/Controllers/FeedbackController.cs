@@ -52,5 +52,12 @@ namespace laiLaChoCu.Controllers
             var feedback = await feedbackServices.Delete(id);
             return Ok(feedback);
         }
+        [Authorize("ADMIN")]
+        [HttpPost("{id}")]
+        public async Task<ActionResult<FeedbackResponse>> Click(int id)
+        {
+            var feedback = await feedbackServices.Click(id);
+            return Ok(feedback);
+        }
     }
 }

@@ -15,6 +15,7 @@ namespace laiLaChoCu.Services
         Task<int> countAll();
         Task<FeedbackResponse> Add(FeedbackRequest feedbackRequest);
         Task<FeedbackResponse> Delete(int id);
+        Task<FeedbackResponse> Click(int id);
     }
     public class FeedbackServices : IFeedbackServices
     {
@@ -29,9 +30,22 @@ namespace laiLaChoCu.Services
         public async Task<FeedbackResponse> Add(FeedbackRequest feedbackRequest)
         {
             Feedback feedback = new Feedback(feedbackRequest.AccountId, feedbackRequest.Title, feedbackRequest.Content);
+            feedback.Status = Enums.StatusEnum.DRAFT;
             this._dataContext.Add(feedback);
             await _dataContext.SaveChangesAsync();
             return _mapper.Map<Feedback,FeedbackResponse>(feedback);
+        }
+
+        public async Task<FeedbackResponse> Click(int id)
+        {
+            Feedback feedback = _dataContext.Feedbacks.Where(x => x.Id == id).FirstOrDefault();
+            if (feedback != null)
+            {
+                feedback.Status = Enums.StatusEnum.APPROVED;
+                this._dataContext.Feedbacks.Update(feedback);
+                await _dataContext.SaveChangesAsync();
+            }
+            return _mapper.Map<Feedback, FeedbackResponse>(feedback);
         }
 
         public async Task<int> countAll()

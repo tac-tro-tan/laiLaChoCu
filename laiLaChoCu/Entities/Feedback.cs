@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using laiLaChoCu.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace laiLaChoCu.Entities
 {
@@ -16,5 +17,6 @@ namespace laiLaChoCu.Entities
         public Guid AccountId { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
+        public StatusEnum Status { get; set; }
     }
 }
