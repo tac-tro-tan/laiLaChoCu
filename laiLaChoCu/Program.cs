@@ -64,6 +64,7 @@ var builder = WebApplication.CreateBuilder(args);
     services.AddScoped<IChatServices,ChatServices>();
     services.AddScoped<ISupportServices, SupportServices>();
     services.AddScoped<IStatisticalServices, StatisticalServices>();
+    services.AddScoped<IEvaluateServices, EvaluateServices>();
 
     builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 }
